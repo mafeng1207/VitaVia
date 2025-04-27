@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 具体页面内容放这里 -->
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
