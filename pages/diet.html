@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途 - 饮食记录</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .nutrition-summary {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .nutrition-chart {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary-color) 0% 30%, var(--warning-color) 30% 55%, var(--success-color) 55% 100%);
+      position: relative;
+      margin: 0 auto 20px auto;
+    }
+    
+    .nutrition-chart-inner {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: white;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    
+    .nutrition-percentage {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    
+    .nutrition-label {
+      font-size: 12px;
+      color: var(--light-text-color);
+    }
+    
+    .nutrition-detail {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .nutrition-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .meal-item {
+      background-color: white;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    
+    .meal-header {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .meal-time {
+      font-size: 14px;
+      color: var(--light-text-color);
+    }
+    
+    .meal-content {
+      padding: 0 16px;
+    }
+    
+    .food-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .food-item:last-child {
+      border-bottom: none;
+    }
+    
+    .food-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background-color: var(--background-color);
+      overflow: hidden;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    
+    .food-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .food-content {
+      flex: 1;
+    }
+    
+    .food-title {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .food-nutrition {
+      display: flex;
+      font-size: 12px;
+      color: var(--light-text-color);
+    }
+    
+    .food-calories {
+      margin-left: auto;
+      font-weight: 500;
+    }
+    
+    .filter-tabs {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-right: 8px;
+      white-space: nowrap;
+      background-color: #f3f4f6;
+      color: var(--light-text-color);
+    }
+    
+    .filter-tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .action-button {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    
+    .kcal-container {
+      border-radius: 12px;
+      background-color: var(--background-color);
+      padding: 8px 12px;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 页面标题 -->
+    <div class="p-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold">饮食记录</h1>
+      <button class="btn-secondary flex items-center" style="padding: 8px 16px;">
+        <i class="fas fa-calendar-alt mr-2"></i> 今天
+      </button>
+    </div>
+    
+    <!-- 时间筛选 -->
+    <div class="px-3">
+      <div class="filter-tabs">
+        <div class="filter-tab active">今天</div>
+        <div class="filter-tab">昨天</div>
+        <div class="filter-tab">本周</div>
+        <div class="filter-tab">本月</div>
+      </div>
+    </div>
+    
+    <!-- 营养摄入总结 -->
+    <div class="px-3">
+      <div class="nutrition-summary">
+        <div class="nutrition-chart">
+          <div class="nutrition-chart-inner">
+            <div class="nutrition-percentage">65%</div>
+            <div class="nutrition-label">已摄入</div>
+          </div>
+        </div>
+        
+        <div class="flex justify-center mb-4">
+          <div class="text-xl font-bold">1,385</div>
+          <div class="kcal-container">
+            <div class="text-xs text-light">目标</div>
+            <div class="text-sm font-medium">2,100 千卡</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <div class="nutrition-detail">
+              <div class="nutrition-marker" style="background-color: var(--primary-color);"></div>
+              <div>蛋白质</div>
+            </div>
+            <div class="ml-5">
+              <div class="text-lg font-medium">68g</div>
+              <div class="text-xs text-light">目标 95g</div>
+            </div>
+          </div>
+          
+          <div>
+            <div class="nutrition-detail">
+              <div class="nutrition-marker" style="background-color: var(--warning-color);"></div>
+              <div>碳水</div>
+            </div>
+            <div class="ml-5">
+              <div class="text-lg font-medium">185g</div>
+              <div class="text-xs text-light">目标 250g</div>
+            </div>
+          </div>
+          
+          <div>
+            <div class="nutrition-detail">
+              <div class="nutrition-marker" style="background-color: var(--success-color);"></div>
+              <div>脂肪</div>
+            </div>
+            <div class="ml-5">
+              <div class="text-lg font-medium">47g</div>
+              <div class="text-xs text-light">目标 70g</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 今日饮食记录 -->
+    <div class="p-3">
+      <h2 class="font-bold mb-3">今日饮食</h2>
+      
+      <!-- 早餐 -->
+      <div class="meal-item">
+        <div class="meal-header">
+          <div>
+            <h3 class="font-bold">早餐</h3>
+            <div class="meal-time">08:15</div>
+          </div>
+          <div class="text-lg font-bold">485 千卡</div>
+        </div>
+        <div class="meal-content">
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="燕麦粥">
+            </div>
+            <div class="food-content">
+              <div class="food-title">燕麦粥</div>
+              <div class="food-nutrition">
+                <div>碳水 30g</div>
+                <div class="ml-2">蛋白质 5g</div>
+                <div class="ml-2">脂肪 3g</div>
+              </div>
+            </div>
+            <div class="food-calories">180 千卡</div>
+          </div>
+          
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="香蕉">
+            </div>
+            <div class="food-content">
+              <div class="food-title">香蕉</div>
+              <div class="food-nutrition">
+                <div>碳水 23g</div>
+                <div class="ml-2">蛋白质 1g</div>
+                <div class="ml-2">脂肪 0g</div>
+              </div>
+            </div>
+            <div class="food-calories">105 千卡</div>
+          </div>
+          
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="全麦吐司">
+            </div>
+            <div class="food-content">
+              <div class="food-title">全麦吐司</div>
+              <div class="food-nutrition">
+                <div>碳水 38g</div>
+                <div class="ml-2">蛋白质 8g</div>
+                <div class="ml-2">脂肪 4g</div>
+              </div>
+            </div>
+            <div class="food-calories">200 千卡</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 午餐 -->
+      <div class="meal-item">
+        <div class="meal-header">
+          <div>
+            <h3 class="font-bold">午餐</h3>
+            <div class="meal-time">12:30</div>
+          </div>
+          <div class="text-lg font-bold">650 千卡</div>
+        </div>
+        <div class="meal-content">
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="蔬菜沙拉">
+            </div>
+            <div class="food-content">
+              <div class="food-title">蔬菜沙拉</div>
+              <div class="food-nutrition">
+                <div>碳水 12g</div>
+                <div class="ml-2">蛋白质 3g</div>
+                <div class="ml-2">脂肪 8g</div>
+              </div>
+            </div>
+            <div class="food-calories">150 千卡</div>
+          </div>
+          
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1606755456206-b25206cde27e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="鸡胸肉">
+            </div>
+            <div class="food-content">
+              <div class="food-title">烤鸡胸肉</div>
+              <div class="food-nutrition">
+                <div>碳水 0g</div>
+                <div class="ml-2">蛋白质 38g</div>
+                <div class="ml-2">脂肪 7g</div>
+              </div>
+            </div>
+            <div class="food-calories">280 千卡</div>
+          </div>
+          
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1633280571081-343bd3714349?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="糙米饭">
+            </div>
+            <div class="food-content">
+              <div class="food-title">糙米饭</div>
+              <div class="food-nutrition">
+                <div>碳水 45g</div>
+                <div class="ml-2">蛋白质 5g</div>
+                <div class="ml-2">脂肪 2g</div>
+              </div>
+            </div>
+            <div class="food-calories">220 千卡</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 推荐下餐 -->
+      <h2 class="font-bold mt-4 mb-3">推荐晚餐</h2>
+      <div class="meal-item">
+        <div class="meal-header">
+          <h3 class="font-bold">健康晚餐方案</h3>
+          <div>约 450 千卡</div>
+        </div>
+        <div class="meal-content">
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="三文鱼">
+            </div>
+            <div class="food-content">
+              <div class="food-title">烤三文鱼</div>
+              <div class="food-nutrition">
+                <div>优质蛋白质和欧米伽-3脂肪酸</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="food-item">
+            <div class="food-image">
+              <img src="https://images.unsplash.com/photo-1607305387299-a3d9611cd469?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="蒸蔬菜">
+            </div>
+            <div class="food-content">
+              <div class="food-title">蒸时蔬</div>
+              <div class="food-nutrition">
+                <div>富含维生素和纤维素</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 添加食物按钮 -->
+    <div class="action-button">
+      <i class="fas fa-plus text-xl"></i>
+    </div>
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item active" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
