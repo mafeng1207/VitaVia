@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途 - 运动计划</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .exercise-summary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 20px;
+      border-radius: 16px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    
+    .exercise-stat {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .exercise-value {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 4px 0;
+    }
+    
+    .exercise-label {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .exercise-plan-item {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .exercise-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--background-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+    
+    .exercise-icon i {
+      font-size: 20px;
+      color: var(--primary-color);
+    }
+    
+    .exercise-content {
+      flex: 1;
+    }
+    
+    .exercise-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .exercise-description {
+      font-size: 13px;
+      color: var(--light-text-color);
+    }
+    
+    .exercise-progress {
+      margin-top: 8px;
+    }
+    
+    .tabbed-section {
+      margin-bottom: 16px;
+    }
+    
+    .tab-header {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+    
+    .tab-button {
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--light-text-color);
+      border-bottom: 2px solid transparent;
+    }
+    
+    .tab-button.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+    }
+    
+    .goal-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .goal-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .badge-active {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+    }
+    
+    .badge-coming {
+      background-color: rgba(107, 114, 128, 0.1);
+      color: var(--light-text-color);
+    }
+    
+    .workout-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      background-color: var(--background-color);
+      border-radius: 12px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .workout-tag i {
+      margin-right: 4px;
+      font-size: 10px;
+    }
+    
+    .action-button {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 页面标题 -->
+    <div class="p-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold">运动计划</h1>
+      <button class="rounded-full bg-gray-100 p-2">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
+    </div>
+    
+    <!-- 运动数据总结 -->
+    <div class="px-3">
+      <div class="exercise-summary">
+        <div class="flex justify-between">
+          <div class="exercise-stat">
+            <div class="exercise-value">3</div>
+            <div class="exercise-label">本周运动</div>
+          </div>
+          <div class="exercise-stat">
+            <div class="exercise-value">145</div>
+            <div class="exercise-label">分钟</div>
+          </div>
+          <div class="exercise-stat">
+            <div class="exercise-value">850</div>
+            <div class="exercise-label">千卡</div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="text-sm mb-1">周目标进度</div>
+          <div class="progress-bar" style="background-color: rgba(255, 255, 255, 0.2);">
+            <div class="progress-bar-fill" style="width: 60%; background-color: white;"></div>
+          </div>
+          <div class="text-right text-sm mt-1" style="opacity: 0.8;">3/5 次</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 选项卡 -->
+    <div class="tabbed-section">
+      <div class="tab-header">
+        <div class="tab-button active">今日计划</div>
+        <div class="tab-button">我的目标</div>
+        <div class="tab-button">历史记录</div>
+      </div>
+      
+      <!-- 今日计划内容 -->
+      <div class="px-3">
+        <div class="exercise-plan-item">
+          <div class="exercise-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="exercise-content">
+            <div class="flex justify-between">
+              <div class="exercise-title">有氧训练</div>
+              <div class="text-sm text-primary">09:00</div>
+            </div>
+            <div class="exercise-description">慢跑30分钟，保持中等强度</div>
+            <div class="exercise-progress">
+              <div class="flex justify-between text-sm mb-1">
+                <div>已完成</div>
+                <div class="text-primary">30/30 分钟</div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="exercise-plan-item">
+          <div class="exercise-icon">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="exercise-content">
+            <div class="flex justify-between">
+              <div class="exercise-title">力量训练</div>
+              <div class="text-sm text-primary">16:00</div>
+            </div>
+            <div class="exercise-description">上肢训练，3组，每组12次</div>
+            <div class="exercise-progress">
+              <div class="flex justify-between text-sm mb-1">
+                <div>未开始</div>
+                <div class="text-light">0/45 分钟</div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="exercise-plan-item">
+          <div class="exercise-icon">
+            <i class="fas fa-walking"></i>
+          </div>
+          <div class="exercise-content">
+            <div class="flex justify-between">
+              <div class="exercise-title">散步</div>
+              <div class="text-sm text-primary">20:00</div>
+            </div>
+            <div class="exercise-description">晚饭后轻松散步，促进消化</div>
+            <div class="exercise-progress">
+              <div class="flex justify-between text-sm mb-1">
+                <div>未开始</div>
+                <div class="text-light">0/20 分钟</div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <h3 class="font-bold mt-4 mb-2">推荐训练</h3>
+        
+        <div class="exercise-plan-item">
+          <div class="exercise-icon">
+            <i class="fas fa-biking"></i>
+          </div>
+          <div class="exercise-content">
+            <div class="exercise-title">室内骑行</div>
+            <div class="exercise-description">中等强度，可燃烧约200千卡热量</div>
+            <div class="flex flex-wrap mt-2">
+              <div class="workout-tag">
+                <i class="fas fa-clock"></i> 20分钟
+              </div>
+              <div class="workout-tag">
+                <i class="fas fa-fire"></i> 中等强度
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="exercise-plan-item">
+          <div class="exercise-icon">
+            <i class="fas fa-swimming-pool"></i>
+          </div>
+          <div class="exercise-content">
+            <div class="exercise-title">游泳</div>
+            <div class="exercise-description">全身性运动，有助于提高心肺功能</div>
+            <div class="flex flex-wrap mt-2">
+              <div class="workout-tag">
+                <i class="fas fa-clock"></i> 45分钟
+              </div>
+              <div class="workout-tag">
+                <i class="fas fa-fire"></i> 中高强度
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 创建运动按钮 -->
+    <div class="action-button">
+      <i class="fas fa-plus text-xl"></i>
+    </div>
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item active" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
