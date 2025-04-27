@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途 - 个人中心</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .profile-header {
+      padding: 24px 16px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border-radius: 0 0 16px 16px;
+      margin-bottom: 16px;
+    }
+    
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid white;
+      object-fit: cover;
+    }
+    
+    .menu-section {
+      background-color: white;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    
+    .menu-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    
+    .menu-title {
+      flex: 1;
+      font-weight: 500;
+    }
+    
+    .badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      background-color: #f3f4f6;
+    }
+    
+    .badge-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .achievement-section {
+      margin-bottom: 16px;
+    }
+    
+    .achievement-list {
+      overflow-x: auto;
+      display: flex;
+      padding: 8px 0;
+    }
+    
+    .achievement-item {
+      flex-shrink: 0;
+      width: 100px;
+      margin-right: 12px;
+      text-align: center;
+    }
+    
+    .achievement-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .achievement-locked {
+      opacity: 0.5;
+    }
+    
+    .achievement-title {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .logout-button {
+      width: 100%;
+      padding: 16px;
+      text-align: center;
+      color: var(--danger-color);
+      font-weight: 500;
+      margin-top: 16px;
+      background-color: white;
+      border-radius: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 个人信息头部 -->
+    <div class="profile-header">
+      <div class="flex items-center mb-4">
+        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&auto=format&fit=crop&w=150&q=80" alt="用户头像" class="avatar">
+        <div class="ml-4">
+          <h1 class="text-xl font-bold">张先生</h1>
+          <p class="text-sm opacity-80">一段健康的生活从今天开始</p>
+        </div>
+      </div>
+      
+      <div class="flex justify-between">
+        <div class="text-center">
+          <div class="text-lg font-bold">15</div>
+          <div class="text-xs opacity-80">连续打卡</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold">187</div>
+          <div class="text-xs opacity-80">累计运动(小时)</div>
+        </div>
+        <div class="text-center">
+          <div class="text-lg font-bold">8</div>
+          <div class="text-xs opacity-80">达成目标</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 成就展示 -->
+    <div class="achievement-section px-3">
+      <h2 class="font-bold mb-3">我的成就</h2>
+      <div class="achievement-list">
+        <div class="achievement-item">
+          <div class="achievement-icon" style="color: #F59E0B; background-color: #FEF3C7;">
+            <i class="fas fa-fire"></i>
+          </div>
+          <div class="achievement-title">7天连续打卡</div>
+        </div>
+        
+        <div class="achievement-item">
+          <div class="achievement-icon" style="color: #10B981; background-color: #D1FAE5;">
+            <i class="fas fa-running"></i>
+          </div>
+          <div class="achievement-title">累计运动30小时</div>
+        </div>
+        
+        <div class="achievement-item">
+          <div class="achievement-icon" style="color: #3B82F6; background-color: #DBEAFE;">
+            <i class="fas fa-apple-alt"></i>
+          </div>
+          <div class="achievement-title">健康饮食7天</div>
+        </div>
+        
+        <div class="achievement-item achievement-locked">
+          <div class="achievement-icon" style="color: #6B7280; background-color: #F3F4F6;">
+            <i class="fas fa-medal"></i>
+          </div>
+          <div class="achievement-title">减重5公斤</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 菜单选项 -->
+    <div class="px-3">
+      <div class="menu-section">
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #DBEAFE;">
+            <i class="fas fa-user text-blue-500"></i>
+          </div>
+          <div class="menu-title">个人资料</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #D1FAE5;">
+            <i class="fas fa-chart-line text-green-500"></i>
+          </div>
+          <div class="menu-title">健康报告</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #FEF3C7;">
+            <i class="fas fa-bullseye text-yellow-500"></i>
+          </div>
+          <div class="menu-title">我的目标</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+      </div>
+      
+      <div class="menu-section">
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #DBEAFE;">
+            <i class="fas fa-bell text-blue-500"></i>
+          </div>
+          <div class="menu-title">提醒设置</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #F3F4F6;">
+            <i class="fas fa-cog text-gray-500"></i>
+          </div>
+          <div class="menu-title">通用设置</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #DBEAFE;">
+            <i class="fas fa-shield-alt text-blue-500"></i>
+          </div>
+          <div class="menu-title">隐私设置</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+      </div>
+      
+      <div class="menu-section">
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #FEF3C7;">
+            <i class="fas fa-crown text-yellow-500"></i>
+          </div>
+          <div class="menu-title">加入会员</div>
+          <div class="badge badge-primary">限时优惠</div>
+          <i class="fas fa-chevron-right text-light ml-2"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-icon" style="background-color: #F3F4F6;">
+            <i class="fas fa-question-circle text-gray-500"></i>
+          </div>
+          <div class="menu-title">帮助与反馈</div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+      </div>
+      
+      <button class="logout-button">
+        退出登录
+      </button>
+    </div>
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item active" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
