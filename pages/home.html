@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途 - 首页</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 24px 16px;
+      border-radius: 0 0 16px 16px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    
+    .quick-action {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .quick-action i {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+    
+    .health-metric {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .health-metric-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    
+    .health-metric-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .health-metric-unit {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 顶部个人信息 -->
+    <div class="hero-section">
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h1 class="text-lg font-bold">早上好，张先生</h1>
+          <p class="text-sm">今天是健康计划的第 15 天</p>
+        </div>
+        <div class="rounded-full bg-white p-2">
+          <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&auto=format&fit=crop&w=50&q=80" alt="用户头像" class="w-10 h-10 rounded-full">
+        </div>
+      </div>
+      
+      <!-- 健康数据简览 -->
+      <div class="flex flex-col gap-3">
+        <div class="health-metric">
+          <div class="health-metric-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <div>
+            <div class="text-sm">心率</div>
+            <div>
+              <span class="health-metric-value">72</span>
+              <span class="health-metric-unit">BPM</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="health-metric">
+          <div class="health-metric-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+            <i class="fas fa-shoe-prints"></i>
+          </div>
+          <div>
+            <div class="text-sm">今日步数</div>
+            <div>
+              <span class="health-metric-value">6,520</span>
+              <span class="health-metric-unit">步</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="health-metric">
+          <div class="health-metric-icon" style="background-color: rgba(255, 255, 255, 0.2);">
+            <i class="fas fa-bed"></i>
+          </div>
+          <div>
+            <div class="text-sm">昨晚睡眠</div>
+            <div>
+              <span class="health-metric-value">7.5</span>
+              <span class="health-metric-unit">小时</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 快捷操作 -->
+    <div class="p-3">
+      <h2 class="font-bold mb-3">快捷功能</h2>
+      <div class="grid grid-cols-4 gap-3">
+        <div class="quick-action">
+          <i class="fas fa-weight"></i>
+          <div class="text-sm">体重记录</div>
+        </div>
+        <div class="quick-action">
+          <i class="fas fa-apple-alt"></i>
+          <div class="text-sm">饮食记录</div>
+        </div>
+        <div class="quick-action">
+          <i class="fas fa-running"></i>
+          <div class="text-sm">开始运动</div>
+        </div>
+        <div class="quick-action">
+          <i class="fas fa-pills"></i>
+          <div class="text-sm">用药提醒</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 今日建议 -->
+    <div class="p-3">
+      <h2 class="font-bold mb-3">今日健康建议</h2>
+      <div class="health-card">
+        <div class="health-card-header">
+          <h3 class="health-card-title">多喝水</h3>
+          <i class="fas fa-tint text-primary"></i>
+        </div>
+        <div class="health-card-content">
+          <p class="mb-2">今天您的饮水量仅完成目标的50%，建议多补充水分。</p>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width: 50%;"></div>
+          </div>
+          <div class="text-right text-sm mt-1">1000ml / 2000ml</div>
+        </div>
+      </div>
+      
+      <div class="health-card">
+        <div class="health-card-header">
+          <h3 class="health-card-title">午间散步</h3>
+          <i class="fas fa-walking text-primary"></i>
+        </div>
+        <div class="health-card-content">
+          <p>建议午餐后进行15-30分钟的轻度散步，有助于消化并改善血糖水平。</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 健康文章 -->
+    <div class="p-3">
+      <h2 class="font-bold mb-3">健康知识</h2>
+      <div class="health-card">
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="健康饮食" class="w-full h-32 object-cover">
+        <div class="health-card-content">
+          <h3 class="font-bold mb-1">夏季饮食指南：如何保持健康与活力</h3>
+          <p class="text-sm text-light">了解夏季饮食的关键，保持身体水分与能量平衡。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item active" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
