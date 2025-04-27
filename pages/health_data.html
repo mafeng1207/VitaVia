@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健康优途 - 健康数据</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .health-stat {
+      background-color: white;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 8px 0;
+    }
+    
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .trend-up {
+      color: var(--danger-color);
+    }
+    
+    .trend-down {
+      color: var(--success-color);
+    }
+    
+    .trend-stable {
+      color: var(--light-text-color);
+    }
+    
+    .chart-container {
+      height: 180px;
+      margin-top: 16px;
+      position: relative;
+    }
+    
+    .chart-placeholder {
+      width: 100%;
+      height: 100%;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .chart-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" preserveAspectRatio="none"><path d="M0,250 C50,220 100,180 150,230 C200,280 250,180 300,170 C350,160 400,220 450,200 C500,180 550,140 600,160 C650,180 700,240 750,220 C800,200 850,160 900,140 C950,120 1000,160 1000,160 L1000,300 L0,300 Z" fill="rgba(79, 70, 229, 0.1)" /><path d="M0,250 C50,220 100,180 150,230 C200,280 250,180 300,170 C350,160 400,220 450,200 C500,180 550,140 600,160 C650,180 700,240 750,220 C800,200 850,160 900,140 C950,120 1000,160 1000,160" fill="none" stroke="%234F46E5" stroke-width="3" /></svg>');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .chart-dots {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    
+    .chart-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      position: relative;
+    }
+    
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--light-text-color);
+    }
+    
+    .filter-tabs {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-right: 8px;
+      white-space: nowrap;
+      background-color: #f3f4f6;
+      color: var(--light-text-color);
+    }
+    
+    .filter-tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- iOS 状态栏 -->
+  <div class="ios-status-bar">
+    <div class="time">14:30</div>
+    <div class="right-icons">
+      <div class="signal"><i class="fas fa-signal"></i></div>
+      <div class="wifi"><i class="fas fa-wifi"></i></div>
+      <div class="battery"><i class="fas fa-battery-full"></i></div>
+    </div>
+  </div>
+  
+  <!-- 页面内容 -->
+  <div class="page-container">
+    <!-- 页面标题 -->
+    <div class="p-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold">健康数据</h1>
+      <button class="btn-secondary flex items-center" style="padding: 8px 16px;">
+        <i class="fas fa-calendar-alt mr-2"></i> 日期
+      </button>
+    </div>
+    
+    <!-- 时间筛选 -->
+    <div class="px-3">
+      <div class="filter-tabs">
+        <div class="filter-tab active">日</div>
+        <div class="filter-tab">周</div>
+        <div class="filter-tab">月</div>
+        <div class="filter-tab">年</div>
+        <div class="filter-tab">全部</div>
+      </div>
+    </div>
+    
+    <!-- 主要健康指标 -->
+    <div class="p-3">
+      <div class="health-stat">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <div class="rounded-full bg-blue-100 w-10 h-10 flex items-center justify-center mr-3">
+              <i class="fas fa-heartbeat text-primary"></i>
+            </div>
+            <span>心率</span>
+          </div>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        <div class="stat-value">72 BPM</div>
+        <div class="stat-trend trend-stable">
+          <i class="fas fa-minus mr-1"></i> 与昨日持平
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-placeholder">
+            <div class="chart-line"></div>
+            <div class="chart-dots">
+              <div class="chart-dot" style="bottom: 40%"></div>
+              <div class="chart-dot" style="bottom: 50%"></div>
+              <div class="chart-dot" style="bottom: 30%"></div>
+              <div class="chart-dot" style="bottom: 60%"></div>
+              <div class="chart-dot" style="bottom: 45%"></div>
+              <div class="chart-dot" style="bottom: 70%"></div>
+              <div class="chart-dot" style="bottom: 65%"></div>
+            </div>
+          </div>
+          <div class="chart-labels">
+            <div>周一</div>
+            <div>周二</div>
+            <div>周三</div>
+            <div>周四</div>
+            <div>周五</div>
+            <div>周六</div>
+            <div>周日</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-3">
+        <div class="health-stat">
+          <div class="flex items-center mb-2">
+            <div class="rounded-full bg-green-100 w-8 h-8 flex items-center justify-center mr-2">
+              <i class="fas fa-shoe-prints text-success"></i>
+            </div>
+            <span>步数</span>
+          </div>
+          <div class="stat-value">6,520</div>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up mr-1"></i> 较昨日 +15%
+          </div>
+        </div>
+        
+        <div class="health-stat">
+          <div class="flex items-center mb-2">
+            <div class="rounded-full bg-yellow-100 w-8 h-8 flex items-center justify-center mr-2">
+              <i class="fas fa-fire text-warning"></i>
+            </div>
+            <span>消耗热量</span>
+          </div>
+          <div class="stat-value">485</div>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up mr-1"></i> 较昨日 +8%
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-3">
+        <div class="health-stat">
+          <div class="flex items-center mb-2">
+            <div class="rounded-full bg-indigo-100 w-8 h-8 flex items-center justify-center mr-2">
+              <i class="fas fa-bed text-primary"></i>
+            </div>
+            <span>睡眠</span>
+          </div>
+          <div class="stat-value">7.5h</div>
+          <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up mr-1"></i> 较昨日 +0.5h
+          </div>
+        </div>
+        
+        <div class="health-stat">
+          <div class="flex items-center mb-2">
+            <div class="rounded-full bg-red-100 w-8 h-8 flex items-center justify-center mr-2">
+              <i class="fas fa-weight text-danger"></i>
+            </div>
+            <span>体重</span>
+          </div>
+          <div class="stat-value">72.5kg</div>
+          <div class="stat-trend trend-down">
+            <i class="fas fa-arrow-down mr-1"></i> 较上周 -0.8kg
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 其他健康指标 -->
+    <div class="p-3">
+      <h2 class="font-bold mb-3">其他健康指标</h2>
+      <div class="health-card">
+        <div class="health-card-header">
+          <h3 class="health-card-title">血压</h3>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        <div class="health-card-content">
+          <div class="flex justify-between">
+            <div>
+              <div class="text-sm text-light">收缩压</div>
+              <div class="text-lg font-bold">120 <span class="text-sm font-normal">mmHg</span></div>
+            </div>
+            <div>
+              <div class="text-sm text-light">舒张压</div>
+              <div class="text-lg font-bold">80 <span class="text-sm font-normal">mmHg</span></div>
+            </div>
+            <div>
+              <div class="text-sm text-light">最近测量</div>
+              <div class="text-sm">今天 08:30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="health-card">
+        <div class="health-card-header">
+          <h3 class="health-card-title">血糖</h3>
+          <i class="fas fa-chevron-right text-light"></i>
+        </div>
+        <div class="health-card-content">
+          <div class="flex justify-between">
+            <div>
+              <div class="text-lg font-bold">5.4 <span class="text-sm font-normal">mmol/L</span></div>
+              <div class="text-sm text-success">正常范围</div>
+            </div>
+            <div>
+              <div class="text-sm text-light">最近测量</div>
+              <div class="text-sm">今天 07:15</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- iOS 底部导航栏 -->
+  <div class="ios-tab-bar">
+    <a href="home.html" class="tab-item" id="tab-home">
+      <i class="fas fa-home"></i>
+      <span class="tab-label">首页</span>
+    </a>
+    <a href="health_data.html" class="tab-item active" id="tab-health">
+      <i class="fas fa-heartbeat"></i>
+      <span class="tab-label">健康</span>
+    </a>
+    <a href="exercise.html" class="tab-item" id="tab-exercise">
+      <i class="fas fa-running"></i>
+      <span class="tab-label">运动</span>
+    </a>
+    <a href="diet.html" class="tab-item" id="tab-diet">
+      <i class="fas fa-utensils"></i>
+      <span class="tab-label">饮食</span>
+    </a>
+    <a href="profile.html" class="tab-item" id="tab-profile">
+      <i class="fas fa-user"></i>
+      <span class="tab-label">我的</span>
+    </a>
+  </div>
+  
+  <script src="common.js"></script>
+</body>
+</html> 
